@@ -25,10 +25,11 @@ class SensorLocationsController extends Controller
                 'latitude' => $location->latitude,
                 'longitude' => $location->longitude,
                 'altitude' => $location->altitude,
-                'created_at' => $location->created_at->diffForHumans(),
+                'created_at' => $location->created_at->format('d-m-Y'),
+                'updated_at' => $location->updated_at ? ($location->updated_at->eq($location->created_at) ? 'Sin cambios' : $location->updated_at->diffForHumans()) : 'Sin cambios',
             ];
         });
-        return Inertia::render('sensor/Index', [
+        return Inertia::render('sensor/locations/Index', [
             'locations' => $locations,
             'status' => $request->session()->get('status'),
         ]);
@@ -40,7 +41,10 @@ class SensorLocationsController extends Controller
      */
     public function store(StoreLocationRequest $request)
     {
+
+        // dd($request->all());
         $location = Location::create($request->validated());
+
         return to_route('locations.index')->with('status', 'Ubicación creada.');
     }
 
@@ -57,7 +61,6 @@ class SensorLocationsController extends Controller
                 'latitude' => $location->latitude,
                 'longitude' => $location->longitude,
                 'altitude' => $location->altitude,
-                'created_at' => $location->created_at->diffForHumans(),
             ],
         ]);
     }

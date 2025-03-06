@@ -106,19 +106,19 @@ export function Editar({ location, onSave }: EditarProps) {
                             {errors.longitude && <InputError message={errors.longitude} className="col-span-4" />}
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="longitude" className="text-right">
+                            <Label htmlFor="altitude" className="text-right">
                                 Altitud
                             </Label>
                             <Input
-                                id="longitude"
+                                id="altitude"
                                 type="number"
                                 value={data.altitude}
-                                onChange={(e) => setData('longitude', parseFloat(e.target.value))}
+                                onChange={(e) => setData('altitude', parseFloat(e.target.value))}
                                 className="col-span-3"
                             />
                             <p className="text-muted-foreground col-span-4 text-center text-[0.8rem]">Ingresa la altura en grados decimales.</p>
 
-                            {errors.longitude && <InputError message={errors.longitude} className="col-span-4" />}
+                            {errors.altitude && <InputError message={errors.altitude} className="col-span-4" />}
                         </div>
                     </div>
                     <DialogFooter>

@@ -11,9 +11,11 @@ class Location extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'description', 'latitude', 'longitude', 'altitude', 'created_at', 'updated_at'];
 
 
+    protected $fillable = ['name', 'description', 'latitude', 'longitude', 'altitude'];
+
+    public $timestamps = true;
 
     public function sensorData()
     {

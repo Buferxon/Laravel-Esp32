@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->float('temperature');
             $table->float('humidity');
-            $table->float('air_quality ');
+            $table->float('air_quality');
             $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();

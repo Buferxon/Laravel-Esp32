@@ -11,7 +11,7 @@ class StoreLocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,9 @@ class StoreLocationRequest extends FormRequest
         return [
             "name" => ["required", "string", "max:255"],
             "description" => ["nullable", "string", "max:255"],
-            "latitude" => ["required", "float"],
-            "longitude" => ["required", "float"],
-            "altitude" => ["nullable", "float"],
+            "latitude" => ["required", "regex:/^-?\d+(\.\d{2,6})?$/"],
+            "longitude" => ["required", "regex:/^-?\d+(\.\d{2,6})?$/"],
+            "altitude" => ["nullable", "regex:/^-?\d+(\.\d{2,6})?$/"],
         ];
     }
 
@@ -39,10 +39,10 @@ class StoreLocationRequest extends FormRequest
             "description.string" => "La descripción debe ser una cadena de texto.",
             "description.max" => "La descripción no puede tener más de 255 caracteres.",
             "latitude.required" => "La latitud es obligatoria.",
-            "latitude.float" => "La latitud debe ser un número decimal.",
+            "latitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
             "longitude.required" => "La longitud es obligatoria.",
-            "longitude.float" => "La longitud debe ser un número decimal.",
-            "altitude.float" => "La altitud debe ser un número decimal.",
+            "longitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
+            "altitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
         ];
     }
 }
