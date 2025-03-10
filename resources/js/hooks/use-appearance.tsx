@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export type Appearance = 'light' | 'dark' | 'system';
+export type Appearance = 'light' | 'dark' | 'sunset' | 'ocean' | 'system';
 
 const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const applyTheme = (appearance: Appearance) => {
     const isDark = appearance === 'dark' || (appearance === 'system' && prefersDark());
+    const isSunset = appearance === 'sunset';
+    const isOcean = appearance === 'ocean';
 
     document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle('sunset', isSunset);
+    document.documentElement.classList.toggle('ocean', isOcean);
 };
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

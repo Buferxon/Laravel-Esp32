@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Sensor\SensorDataContrller;
 use App\Http\Controllers\Sensor\SensorLocationsController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\DashboardController; // Added this line
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,9 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('api/dashboard/sensor-data', [DashboardController::class, 'getLatestSensorDataApi'])->name('dashboard.sensor-data');
 });
 Route::get('/sensor/data', [SensorDataContrller::class, 'index'])->name('data.index');
 
