@@ -14,9 +14,9 @@ return new class extends Migration {
             $table->id()->primary();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->float('latitude');
-            $table->float('longitude');
-            $table->float('altitude')->nullable();
+            $table->decimal('latitude', 9, 6);
+            $table->decimal('longitude', 9, 6);
+            $table->decimal('altitude', 9, 6)->nullable();
             $table->timestamps();
         });
     }

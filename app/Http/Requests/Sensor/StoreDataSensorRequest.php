@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Sensor;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 use Illuminate\Validation\ValidationException;
 
-
-class StoreLocationRequest extends FormRequest
+class StoreDataSensorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,30 +26,34 @@ class StoreLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "max:255"],
-            "description" => ["nullable", "string", "max:255"],
-            "latitude" => ["required", "regex:/^-?\d+(\.\d{2,6})?$/"],
-            "longitude" => ["required", "regex:/^-?\d+(\.\d{2,6})?$/"],
-            "altitude" => ["nullable", "regex:/^-?\d+(\.\d{2,6})?$/"],
+            'temperature' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'humidity' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'pressure' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'location_id' => 'required|exists:locations,id',
         ];
     }
 
-    public function messages(): array
+
+    public function messages()
     {
         return [
-            "name.required" => "El nombre es obligatorio.",
-            "name.string" => "El nombre debe ser una cadena de texto.",
-            "name.max" => "El nombre no puede tener más de 255 caracteres.",
-            "description.string" => "La descripción debe ser una cadena de texto.",
-            "description.max" => "La descripción no puede tener más de 255 caracteres.",
-            "latitude.required" => "La latitud es obligatoria.",
-            "latitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
-            "longitude.required" => "La longitud es obligatoria.",
-            "longitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
-            "altitude.regex" => "La latitud debe ser un número decimal con entre 2 y 6 decimales.",
+            'temperature.required' => 'La temperatura es obligatoria',
+            'temperature.numeric' => 'La temperatura debe ser un número',
+            'temperature.regex' => 'La temperatura debe ser un número con 2 decimales',
+            'humidity.required' => 'La humedad es obligatoria',
+            'humidity.numeric' => 'La humedad debe ser un número',
+            'humidity.regex' => 'La humedad debe ser un número con 2 decimales',
+            'pressure.required' => 'La presión es obligatoria',
+            'pressure.numeric' => 'La presión debe ser un número',
+            'pressure.regex' => 'La presión debe ser un número con 2 decimales',
+            'location_id.required' => 'La ubicación es obligatoria',
+            'location_id.exists' => 'La ubicación no existe',
         ];
     }
 
+    /**
+     * Personaliza la respuesta en caso de fallar la validación.
+     */
     protected function failedValidation(Validator $validator)
     {
         if ($this->isJsonRequest()) {

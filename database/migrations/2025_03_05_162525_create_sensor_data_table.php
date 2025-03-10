@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('sensor_data', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->float('temperature');
-            $table->float('humidity');
-            $table->float('air_quality');
+            $table->decimal('temperature', 8, 2);
+            $table->decimal('humidity', 8, 2);
+            $table->decimal('pressure', 8, 2);
             $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();

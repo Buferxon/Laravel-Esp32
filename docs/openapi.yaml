@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+    title: Sensor Data API
+    description: API para almacenar datos de sensores.
+    version: 1.0.0
+
+paths:
+    /sensor/data:
+        post:
+            summary: Almacena datos de sensores
+            description: Guarda los datos de temperatura, humedad y presión en la base de datos.
+            operationId: storeSensorData
+            tags:
+                - Sensor Data
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - temperature
+                                - humidity
+                                - pressure
+                                - location_id
+                            properties:
+                                temperature:
+                                    type: number
+                                    format: float
+                                    example: 25.5
+                                humidity:
+                                    type: number
+                                    format: float
+                                    example: 60.2
+                                pressure:
+                                    type: number
+                                    format: float
+                                    example: 1013.25
+                                location_id:
+                                    type: integer
+                                    example: 1
+            responses:
+                '201':
+                    description: Datos almacenados correctamente
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Datos almacenados correctamente'
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                                example: 123
+                                            temperature:
+                                                type: number
+                                                example: 25.5
+                                            humidity:
+                                                type: number
+                                                example: 60.2
+                                            pressure:
+                                                type: number
+                                                example: 1013.25
+                                            location_id:
+                                                type: integer
+                                                example: 1
+                '400':
+                    description: Error de validación en los datos enviados
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Error de validación'
+                                    message:
+                                        type: string
+                                        example: 'El campo temperatura es requerido.'
+                '500':
+                    description: Error interno del servidor
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'No se pudo almacenar los datos'
+                                    message:
+                                        type: string
+                                        example: 'Error en la base de datos.'

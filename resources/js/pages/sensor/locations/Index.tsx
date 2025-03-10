@@ -47,7 +47,7 @@ export default function Index({ locations, status }: IndexProps) {
                 </Button>
             </div>
 
-            <div className="ml-2">
+            <div>
                 <Table>
                     <TableCaption>Lista de ubicaciones de los sensores.</TableCaption>
                     <TableHeader>
