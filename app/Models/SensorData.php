@@ -15,7 +15,7 @@ class SensorData extends Model
     protected $keyType = 'string'; // Indica que el ID es un string (UUID)
     public $incrementing = false; // Desactiva la auto-incrementación
 
-    protected $fillable = ['temperature', 'humidity', 'pressure', 'location_id']; // Campos permitidos para inserción masiva
+    protected $fillable = ['temperature', 'humidity', 'pressure', 'sky_condition', 'location_id']; // Campos permitidos para inserción masiva
 
     public function location()
     {

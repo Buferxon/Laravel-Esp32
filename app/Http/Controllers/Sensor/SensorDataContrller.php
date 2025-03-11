@@ -23,6 +23,7 @@ class SensorDataContrller extends Controller
                 'temperature' => $data->temperature,
                 'humidity' => $data->humidity,
                 'pressure' => $data->pressure,
+                'sky_condition' => $data->sky_condition,
                 'location_id' => $data->location_id,
                 'location_name' => $data->location->name,
                 'created_at' => $data->created_at->format('d-m-y H:i'),
@@ -61,6 +62,7 @@ class SensorDataContrller extends Controller
          *             @OA\Property(property="temperature", type="number", example=25.5),
          *             @OA\Property(property="humidity", type="number", example=60.2),
          *             @OA\Property(property="pressure", type="number", example=1013.25),
+         *             @OA\Property(property="sky_condition", type="string", example="Nublado", nullable=true),
          *             @OA\Property(property="location_id", type="integer", example=1)
          *         )
          *     ),

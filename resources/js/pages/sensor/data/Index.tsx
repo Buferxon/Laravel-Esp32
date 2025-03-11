@@ -28,6 +28,7 @@ interface SensorData {
     temperature: number;
     humidity: number;
     pressure: number;
+    sky_condition: string | null;
     location_id: number;
     created_at: string;
     location_name: string;
@@ -87,6 +88,7 @@ export default function Index({ sensordata, status }: IndexProps) {
                         <TableHead>Temperatura °C</TableHead>
                         <TableHead>Humedad %</TableHead>
                         <TableHead>Presión (Pa)</TableHead>
+                        <TableHead>Condición del Cielo</TableHead>
                         <TableHead>Ubicación</TableHead>
                         <TableHead>Fecha</TableHead>
                     </TableRow>
@@ -97,6 +99,7 @@ export default function Index({ sensordata, status }: IndexProps) {
                             <TableCell>{sensor.temperature}</TableCell>
                             <TableCell>{sensor.humidity}</TableCell>
                             <TableCell>{sensor.pressure}</TableCell>
+                            <TableCell>{sensor.sky_condition || '-'}</TableCell>
                             <TableCell>{sensor.location_name}</TableCell>
                             <TableCell>{sensor.created_at}</TableCell>
                         </TableRow>

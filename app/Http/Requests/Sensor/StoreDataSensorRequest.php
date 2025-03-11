@@ -29,6 +29,7 @@ class StoreDataSensorRequest extends FormRequest
             'temperature' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'humidity' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'pressure' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'sky_condition' => 'nullable|string|max:50',
             'location_id' => 'required|exists:locations,id',
         ];
     }
@@ -46,6 +47,8 @@ class StoreDataSensorRequest extends FormRequest
             'pressure.required' => 'La presión es obligatoria',
             'pressure.numeric' => 'La presión debe ser un número',
             'pressure.regex' => 'La presión debe ser un número con 2 decimales',
+            'sky_condition.string' => 'La condición del cielo debe ser texto',
+            'sky_condition.max' => 'La condición del cielo no debe exceder 50 caracteres',
             'location_id.required' => 'La ubicación es obligatoria',
             'location_id.exists' => 'La ubicación no existe',
         ];

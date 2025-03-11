@@ -36,6 +36,11 @@ paths:
                                     type: number
                                     format: float
                                     example: 1013.25
+                                sky_condition:
+                                    type: string
+                                    nullable: true
+                                    example: "Nublado"
+                                    description: "Condición del cielo (opcional)"
                                 location_id:
                                     type: integer
                                     example: 1
@@ -65,6 +70,10 @@ paths:
                                             pressure:
                                                 type: number
                                                 example: 1013.25
+                                            sky_condition:
+                                                type: string
+                                                nullable: true
+                                                example: "Nublado"
                                             location_id:
                                                 type: integer
                                                 example: 1
