@@ -17,7 +17,7 @@ class SensorDataContrller extends Controller
     public function index(Request $request): Response
     {
 
-        $sensordata = SensorData::paginate(10)->through(function ($data) {
+        $sensordata = SensorData::orderBy('created_at', 'desc')->paginate(10)->through(function ($data) {
             return [
                 'id' => $data->id,
                 'temperature' => $data->temperature,
