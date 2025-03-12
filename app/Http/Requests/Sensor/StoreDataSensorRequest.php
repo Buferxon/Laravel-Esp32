@@ -29,7 +29,7 @@ class StoreDataSensorRequest extends FormRequest
             'temperature' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'humidity' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'pressure' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
-            'sky_condition' => 'nullable|string|max:50',
+            'sky_id' => 'nullable|exists:state_sky,id',
             'location_id' => 'required|exists:locations,id',
         ];
     }
@@ -47,8 +47,7 @@ class StoreDataSensorRequest extends FormRequest
             'pressure.required' => 'La presión es obligatoria',
             'pressure.numeric' => 'La presión debe ser un número',
             'pressure.regex' => 'La presión debe ser un número con 2 decimales',
-            'sky_condition.string' => 'La condición del cielo debe ser texto',
-            'sky_condition.max' => 'La condición del cielo no debe exceder 50 caracteres',
+            'sky_id.exists' => 'El estado del cielo seleccionado no existe',
             'location_id.required' => 'La ubicación es obligatoria',
             'location_id.exists' => 'La ubicación no existe',
         ];
@@ -59,25 +58,18 @@ class StoreDataSensorRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        if ($this->isJsonRequest()) {
+       
             // Para API: devuelve JSON
             throw new HttpResponseException(response()->json([
                 'messages' => 'Los datos proporcionados no son válidos',
                 'errors' => $validator->errors()
             ], 422));
-        }
-
-        // Para Inertia.js: devuelve errores como redirección con datos de sesión
-        throw new ValidationException($validator, inertia()->share([
-            'errors' => $validator->errors()
-        ]));
+        
+       
     }
 
     /**
      * Detecta si la solicitud es JSON o API.
      */
-    private function isJsonRequest()
-    {
-        return $this->expectsJson() || str_starts_with($this->path(), 'api/');
-    }
+    
 }

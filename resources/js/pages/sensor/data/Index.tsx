@@ -28,7 +28,7 @@ interface SensorData {
     temperature: number;
     humidity: number;
     pressure: number;
-    sky_condition: string | null;
+    sky_description: string | null;
     location_id: number;
     created_at: string;
     location_name: string;
@@ -56,12 +56,15 @@ interface PaginatedResponse {
     total: number;
 }
 
+
 interface IndexProps {
     sensordata: PaginatedResponse;
     status?: string;
 }
 
 export default function Index({ sensordata, status }: IndexProps) {
+
+    console
     //log de links
     const { current_page, last_page, total, per_page, prev_page_url, next_page_url, links } = sensordata;
 
@@ -99,7 +102,7 @@ export default function Index({ sensordata, status }: IndexProps) {
                             <TableCell>{sensor.temperature}</TableCell>
                             <TableCell>{sensor.humidity}</TableCell>
                             <TableCell>{sensor.pressure}</TableCell>
-                            <TableCell>{sensor.sky_condition || '-'}</TableCell>
+                            <TableCell>{sensor.sky_description || '-'}</TableCell>
                             <TableCell>{sensor.location_name}</TableCell>
                             <TableCell>{sensor.created_at}</TableCell>
                         </TableRow>

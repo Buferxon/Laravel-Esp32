@@ -57,7 +57,6 @@ export default function Index({ locations, status }: IndexProps) {
                             <TableHead>Descripcion</TableHead>
                             <TableHead>Latitud</TableHead>
                             <TableHead>Longitud</TableHead>
-                            <TableHead>Altura</TableHead>
                             <TableHead>Fecha de Creacion</TableHead>
                             <TableHead>Modificaciones</TableHead>
                             <TableHead className="w-[100px]">Acciones</TableHead>
@@ -72,7 +71,6 @@ export default function Index({ locations, status }: IndexProps) {
                                 <TableCell>{location.description}</TableCell>
                                 <TableCell>{location.latitude}</TableCell>
                                 <TableCell>{location.longitude}</TableCell>
-                                <TableCell>{location.altitude}</TableCell>
                                 <TableCell>{location.created_at}</TableCell>
                                 <TableCell>{location.updated_at}</TableCell>
                                 <TableCell>

@@ -15,10 +15,21 @@ class SensorData extends Model
     protected $keyType = 'string'; // Indica que el ID es un string (UUID)
     public $incrementing = false; // Desactiva la auto-incrementación
 
-    protected $fillable = ['temperature', 'humidity', 'pressure', 'sky_condition', 'location_id']; // Campos permitidos para inserción masiva
+    protected $fillable = [
+        'temperature',
+        'humidity',
+        'pressure',
+        'sky_id',
+        'location_id'
+    ]; // Campos permitidos para inserción masiva
 
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function stateSky()
+    {
+        return $this->belongsTo(StateSky::class, 'sky_id');
     }
 }
