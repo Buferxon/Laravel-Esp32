@@ -92,7 +92,7 @@ class SensorDataContrller extends Controller
 
         $lat = $location->latitude;
         $lon = $location->longitude;
-        $apiKey = 'a8db1ce89f6e6584cdeadbb75f73d23d';
+        $apiKey = env('OPENWEATHERMAP_API_KEY');
         $url = "https://api.openweathermap.org/data/2.5/weather?lat={$lat}&lon={$lon}&lang=es&units=metric&appid={$apiKey}";
 
         $response = Http::get($url);
