@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
+
 class SensorDataContrller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     protected  $EstadoResponse;
     public function index(Request $request): Response
     {
         $sensordata = SensorData::with(['location', 'stateSky'])
@@ -64,6 +67,10 @@ class SensorDataContrller extends Controller
             return $this->getSkyCondition($location_id);
         });
 
+        if ($sky_id === null) {
+            return response()->json(['message' => 'No se pudo obtener el estado del cielo', 'data' => $this->EstadoResponse], 500);
+        }
+
         // Guardar los datos del sensor en la base de datos
         $sensorData = SensorData::create([
             'temperature' => $request->temperature,
@@ -90,6 +97,8 @@ class SensorDataContrller extends Controller
 
         $response = Http::get($url);
         if ($response->failed()) {
+
+            $this->EstadoResponse = $response->json();
             return null;
         }
 
