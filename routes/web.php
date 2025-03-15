@@ -31,7 +31,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/sensor/data', [SensorDataContrller::class, 'index'])->name('data.index');
 
 
-
+Route::get('/offline', function () {
+    return view('vendor.laravelpwa.offline');
+})->name('offline');
 
 
 
