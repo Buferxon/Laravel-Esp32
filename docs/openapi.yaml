@@ -3,9 +3,9 @@ info:
     title: Sensor Data API
     description: API para almacenar datos de sensores.
     version: 1.0.0
-
+    url: https://laravel-esp32-main-jifvi1.laravel.cloud
 paths:
-    /sensor/data:
+    /api/sensor/data:
         post:
             summary: Almacena datos de sensores
             description: Guarda los datos de temperatura, humedad y presión en la base de datos.
