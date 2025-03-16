@@ -38,7 +38,7 @@ class DashboardController extends Controller
                     'pressure' => $data->pressure,
                     'location_id' => $data->location_id,
                     'location_name' => $data->location->name,
-                    'created_at' => $data->created_at->format('d-m-y H:i'),
+                    'created_at' => $data->created_at->format('d-m-y H:i:s'),
                 ];
             })->toArray();
     }
