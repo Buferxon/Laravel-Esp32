@@ -16,8 +16,43 @@ interface SensorChartsProps {
 }
 
 export default function SensorCharts({ data }: SensorChartsProps) {
-    // Ordenar los datos por fecha
+    // Función para agrupar datos en intervalos de 30 segundos
+    const groupDataBy30Seconds = (data: SensorData[]) => {
+        const groups = new Map();
+        
+        data.forEach(reading => {
+            const date = new Date(reading.created_at);
+            // Redondear al intervalo de 30 segundos más cercano
+            date.setSeconds(Math.floor(date.getSeconds() / 30) * 30);
+            date.setMilliseconds(0);
+            const key = date.toISOString();
+
+            if (!groups.has(key)) {
+                groups.set(key, {
+                    temperature: [],
+                    humidity: [],
+                    pressure: [],
+                    created_at: key
+                });
+            }
+            
+            const group = groups.get(key);
+            group.temperature.push(reading.temperature);
+            group.humidity.push(reading.humidity);
+            group.pressure.push(reading.pressure);
+        });
+
+        return Array.from(groups.values()).map(group => ({
+            created_at: group.created_at,
+            temperature: group.temperature.reduce((a: number, b: number) => a + b, 0) / group.temperature.length,
+            humidity: group.humidity.reduce((a: number, b: number) => a + b, 0) / group.humidity.length,
+            pressure: group.pressure.reduce((a: number, b: number) => a + b, 0) / group.pressure.length
+        }));
+    };
+
+    // Ordenar y agrupar los datos
     const sortedData = [...data].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    const groupedData = groupDataBy30Seconds(sortedData);
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -28,7 +63,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={sortedData}>
+                        <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
                                 tickFormatter={(value) => new Date(value).toLocaleTimeString()}
@@ -41,7 +76,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                             />
                             <Tooltip
                                 labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
-                                formatter={(value) => [`${value}°C`, 'Temperatura']}
+                                formatter={(value) => [`${Number(value).toFixed(1)}°C`, 'Temperatura']}
                             />
                             <Line
                                 type="monotone"
@@ -62,7 +97,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={sortedData}>
+                        <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
                                 tickFormatter={(value) => new Date(value).toLocaleTimeString()}
@@ -75,7 +110,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                             />
                             <Tooltip
                                 labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
-                                formatter={(value) => [`${value}%`, 'Humedad']}
+                                formatter={(value) => [`${Number(value).toFixed(1)}%`, 'Humedad']}
                             />
                             <Line
                                 type="monotone"
@@ -96,7 +131,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={sortedData}>
+                        <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
                                 tickFormatter={(value) => new Date(value).toLocaleTimeString()}
@@ -109,7 +144,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                             />
                             <Tooltip
                                 labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
-                                formatter={(value) => [`${value} Pa`, 'Presión']}
+                                formatter={(value) => [`${Number(value).toFixed(1)} Pa`, 'Presión']}
                             />
                             <Line
                                 type="monotone"
