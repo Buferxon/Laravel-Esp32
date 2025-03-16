@@ -16,12 +16,22 @@ interface SensorChartsProps {
 }
 
 export default function SensorCharts({ data }: SensorChartsProps) {
+    // Función para convertir fecha del formato 'd-m-y H:i' a objeto Date
+    const parseDate = (dateStr: string): Date => {
+        const [datePart, timePart] = dateStr.split(' ');
+        const [day, month, year] = datePart.split('-');
+        const [hour, minute] = timePart.split(':');
+        
+        // Nota: los meses en JavaScript son 0-based (0-11)
+        return new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute));
+    };
+
     // Función para agrupar datos en intervalos de 30 segundos
     const groupDataBy30Seconds = (data: SensorData[]) => {
         const groups = new Map();
         
         data.forEach(reading => {
-            const date = new Date(reading.created_at);
+            const date = parseDate(reading.created_at);
             // Redondear al intervalo de 30 segundos más cercano
             date.setSeconds(Math.floor(date.getSeconds() / 30) * 30);
             date.setMilliseconds(0);
@@ -51,7 +61,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
     };
 
     // Ordenar y agrupar los datos
-    const sortedData = [...data].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    const sortedData = [...data].sort((a, b) => parseDate(a.created_at).getTime() - parseDate(b.created_at).getTime());
     const groupedData = groupDataBy30Seconds(sortedData);
 
     return (
