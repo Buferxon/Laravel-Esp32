@@ -28,7 +28,7 @@ class DashboardController extends Controller
     {
         return SensorData::with('location')
             ->latest()
-            ->take(20)
+            ->take(120)
             ->get()
             ->map(function ($data) {
                 return [
