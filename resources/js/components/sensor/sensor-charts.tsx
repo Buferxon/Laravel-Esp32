@@ -26,6 +26,18 @@ export default function SensorCharts({ data }: SensorChartsProps) {
         return new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute));
     };
 
+    // Función para formatear la fecha para mostrar en el gráfico
+    const formatDate = (date: Date): string => {
+        return date.toLocaleString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit'
+        });
+    };
+
     // Función para agrupar datos en intervalos de 30 segundos
     const groupDataBy30Seconds = (data: SensorData[]) => {
         const groups = new Map();
@@ -35,21 +47,22 @@ export default function SensorCharts({ data }: SensorChartsProps) {
             // Redondear al intervalo de 30 segundos más cercano
             date.setSeconds(Math.floor(date.getSeconds() / 30) * 30);
             date.setMilliseconds(0);
-            const key = date.toISOString();
 
-            if (!groups.has(key)) {
-                groups.set(key, {
+            const timeKey = formatDate(date);
+
+            if (!groups.has(timeKey)) {
+                groups.set(timeKey, {
                     temperature: [],
                     humidity: [],
                     pressure: [],
-                    created_at: key
+                    created_at: timeKey
                 });
             }
             
-            const group = groups.get(key);
-            group.temperature.push(reading.temperature);
-            group.humidity.push(reading.humidity);
-            group.pressure.push(reading.pressure);
+            const group = groups.get(timeKey);
+            group.temperature.push(Number(reading.temperature));
+            group.humidity.push(Number(reading.humidity));
+            group.pressure.push(Number(reading.pressure));
         });
 
         return Array.from(groups.values()).map(group => ({
@@ -76,7 +89,6 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                         <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
-                                tickFormatter={(value) => new Date(value).toLocaleTimeString()}
                                 fontSize={12}
                             />
                             <YAxis
@@ -85,7 +97,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                                 fontSize={12}
                             />
                             <Tooltip
-                                labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
+                                labelFormatter={(value) => `Fecha: ${value}`}
                                 formatter={(value) => [`${Number(value).toFixed(1)}°C`, 'Temperatura']}
                             />
                             <Line
@@ -110,7 +122,6 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                         <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
-                                tickFormatter={(value) => new Date(value).toLocaleTimeString()}
                                 fontSize={12}
                             />
                             <YAxis
@@ -119,7 +130,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                                 fontSize={12}
                             />
                             <Tooltip
-                                labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
+                                labelFormatter={(value) => `Fecha: ${value}`}
                                 formatter={(value) => [`${Number(value).toFixed(1)}%`, 'Humedad']}
                             />
                             <Line
@@ -144,7 +155,6 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                         <LineChart data={groupedData}>
                             <XAxis
                                 dataKey="created_at"
-                                tickFormatter={(value) => new Date(value).toLocaleTimeString()}
                                 fontSize={12}
                             />
                             <YAxis
@@ -153,7 +163,7 @@ export default function SensorCharts({ data }: SensorChartsProps) {
                                 fontSize={12}
                             />
                             <Tooltip
-                                labelFormatter={(value) => `Fecha: ${new Date(value).toLocaleString()}`}
+                                labelFormatter={(value) => `Fecha: ${value}`}
                                 formatter={(value) => [`${Number(value).toFixed(1)} Pa`, 'Presión']}
                             />
                             <Line
