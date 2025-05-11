@@ -68,6 +68,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -218,6 +219,42 @@
     --sidebar-accent-foreground: oklch(0.2 0.02 230.0);
     --sidebar-border: oklch(0.4 0.1 230.0);
     --sidebar-ring: oklch(0.3 0.15 230.0);
+}
+
+.mustard {
+    --background: oklch(0.8 0.1 85.0);
+    --foreground: oklch(0.2 0.05 85.0);
+    --card: oklch(0.8 0.1 85.0);
+    --card-foreground: oklch(0.2 0.05 85.0);
+    --popover: oklch(0.8 0.1 85.0);
+    --popover-foreground: oklch(0.2 0.05 85.0);
+    --primary: oklch(0.6 0.2 75.0);
+    --primary-foreground: oklch(0.9 0.05 85.0);
+    --secondary: oklch(0.7 0.1 80.0);
+    --secondary-foreground: oklch(0.3 0.05 85.0);
+    --muted: oklch(0.7 0.1 80.0);
+    --muted-foreground: oklch(0.4 0.05 80.0);
+    --accent: oklch(0.7 0.1 80.0);
+    --accent-foreground: oklch(0.2 0.05 85.0);
+    --destructive: oklch(0.5 0.2 30.0);
+    --destructive-foreground: oklch(0.6 0.2 30.0);
+    --border: oklch(0.6 0.1 80.0);
+    --input: oklch(0.6 0.1 80.0);
+    --ring: oklch(0.5 0.15 75.0);
+    --chart-1: oklch(0.6 0.2 70.0);
+    --chart-2: oklch(0.5 0.1 180.0);
+    --chart-3: oklch(0.4 0.1 220.0);
+    --chart-4: oklch(0.7 0.2 85.0);
+    --chart-5: oklch(0.6 0.2 75.0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.7 0.1 85.0);
+    --sidebar-foreground: oklch(0.9 0.05 85.0);
+    --sidebar-primary: oklch(0.9 0.05 85.0);
+    --sidebar-primary-foreground: oklch(0.2 0.05 85.0);
+    --sidebar-accent: oklch(0.8 0.1 75.0);
+    --sidebar-accent-foreground: oklch(0.2 0.05 85.0);
+    --sidebar-border: oklch(0.6 0.1 75.0);
+    --sidebar-ring: oklch(0.5 0.15 75.0);
 }
 
 @layer base {

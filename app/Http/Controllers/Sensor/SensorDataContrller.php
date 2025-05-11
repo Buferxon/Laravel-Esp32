@@ -20,7 +20,7 @@ class SensorDataContrller extends Controller
      * Display a listing of the resource.
      */
 
-     protected  $EstadoResponse;
+    protected  $EstadoResponse;
     public function index(Request $request): Response
     {
         $sensordata = SensorData::with(['location', 'stateSky'])
@@ -33,7 +33,7 @@ class SensorDataContrller extends Controller
                     'humidity' => $data->humidity,
                     'pressure' => $data->pressure,
                     'sky_id' => $data->sky_id,
-                    
+
                     'sky_description' => $data->stateSky?->description,
                     'location_id' => $data->location_id,
                     'location_name' => $data->location->name,
@@ -61,7 +61,7 @@ class SensorDataContrller extends Controller
     public function store(StoreDataSensorRequest $request)
     {
         $location_id = $request->location_id;
-        
+
         // Obtener el estado del cielo de la caché o de la API si han pasado 10 minutos
         $sky_id = Cache::remember("sky_id_{$location_id}", 600, function () use ($location_id) {
             return $this->getSkyCondition($location_id);
@@ -93,6 +93,7 @@ class SensorDataContrller extends Controller
         $lat = $location->latitude;
         $lon = $location->longitude;
         $apiKey = env('OPENWEATHERMAP_API_KEY');
+        dd($apiKey);
         $url = "https://api.openweathermap.org/data/2.5/weather?lat={$lat}&lon={$lon}&lang=es&units=metric&appid={$apiKey}";
 
         $response = Http::get($url);
