@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use Symfony\Component\Process\Process;
 
 class SensorDataContrller extends Controller
 {
@@ -47,6 +47,34 @@ class SensorDataContrller extends Controller
         ]);
     }
 
+
+    public function obtenerDatosClima()
+    {
+        $scriptPath = base_path('storage/app/public/prediccion.py');
+
+        $process = new Process(['python3', $scriptPath]); // Aquí usamos python3 para Linux
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            dd($process->getErrorOutput());
+        }
+        if (!$process->isSuccessful()) {
+            return response()->json(['error' => 'Error al ejecutar el script'], 500);
+        }
+
+        $output = explode("\n", trim($process->getOutput()));
+
+        $datos = [];
+
+        foreach ($output as $linea) {
+            if (strpos($linea, '=') !== false) {
+                [$clave, $valor] = explode('=', $linea, 2);
+                $datos[$clave] = $valor;
+            }
+        }
+
+        return response()->json($datos);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -93,7 +121,7 @@ class SensorDataContrller extends Controller
         $lat = $location->latitude;
         $lon = $location->longitude;
         $apiKey = env('OPENWEATHERMAP_API_KEY');
-        dd($apiKey);
+        // dd($apiKey);
         $url = "https://api.openweathermap.org/data/2.5/weather?lat={$lat}&lon={$lon}&lang=es&units=metric&appid={$apiKey}";
 
         $response = Http::get($url);
