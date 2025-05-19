@@ -15,7 +15,7 @@ export default function WeatherForecastCard({ data }: WeatherForecastCardProps) 
     return (
         <Card className="col-span-1 bg-gradient-to-br from-blue-100 via-white to-blue-50 shadow-md">
             <CardHeader>
-                <CardTitle className="text-xl font-semibold text-blue-900">Predicción del Clima de Mañana</CardTitle>
+                <CardTitle className="text-xl font-semibold text-blue-900">Predicción del Clima</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-blue-800">
                 <div className="flex justify-between">
