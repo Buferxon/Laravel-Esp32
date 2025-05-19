@@ -1,5 +1,4 @@
 import SensorCharts from '@/components/sensor/sensor-charts';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -70,9 +69,28 @@ export default function Dashboard({ sensorData: initialSensorData, prediccion }:
                 </div>
 
                 {/* Espacio para contenido adicional */}
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[50vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between rounded-lg bg-blue-100 p-4 shadow-md">
+                        <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-200">Predicción del Clima</h2>
+                    </div>
+                    {prediccionClima && (
+                        <div className="rounded-lg bg-blue-100 p-4 shadow-md">
+                            <p>Temperatura: {prediccionClima.TEMPERATURA}</p>
+                            <p>Humedad: {prediccionClima.HUMEDAD}</p>
+                            <p>Presión: {prediccionClima.PRESION}</p>
+                            <p>Tipo de Cielo: {prediccionClima.TIPO_CIELO}</p>
+                        </div>
+                    )}
+                    {!prediccionClima && (
+                        <div className="rounded-lg bg-red-100 p-4 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                            No hay predicción del clima disponible.
+                        </div>
+                    )}
                 </div>
+                {/* <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[50vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
+                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                </div> */}
             </div>
         </AppLayout>
     );
