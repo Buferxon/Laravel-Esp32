@@ -1,10 +1,10 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import SensorCharts from '@/components/sensor/sensor-charts';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,15 +22,24 @@ interface SensorDataItem {
     location_name: string;
     created_at: string;
 }
-
+interface PrediccionClima {
+    TEMPERATURA: string;
+    HUMEDAD: string;
+    PRESION: string;
+    TIPO_CIELO: string;
+}
 interface DashboardProps {
     sensorData: SensorDataItem[];
+    prediccion: PrediccionClima;
 }
 
-export default function Dashboard({ sensorData: initialSensorData }: DashboardProps) {
+export default function Dashboard({ sensorData: initialSensorData, prediccion }: DashboardProps) {
     const [sensorData, setSensorData] = useState<SensorDataItem[]>(initialSensorData);
     const [error, setError] = useState<string | null>(null);
+    const [prediccionClima, setPrediccionClima] = useState<PrediccionClima | null>(prediccion);
 
+    console.log('Sensor Data:', sensorData);
+    console.log('Predicción Clima:', prediccionClima);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -56,11 +65,7 @@ export default function Dashboard({ sensorData: initialSensorData }: DashboardPr
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 {/* Gráficos de sensores */}
                 <div className="grid auto-rows-min gap-4">
-                    {error && (
-                        <div className="rounded-lg bg-red-100 p-4 text-red-700 dark:bg-red-900/30 dark:text-red-400">
-                            {error}
-                        </div>
-                    )}
+                    {error && <div className="rounded-lg bg-red-100 p-4 text-red-700 dark:bg-red-900/30 dark:text-red-400">{error}</div>}
                     <SensorCharts data={sensorData} />
                 </div>
 
