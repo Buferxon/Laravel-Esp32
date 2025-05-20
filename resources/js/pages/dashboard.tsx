@@ -72,7 +72,13 @@ export default function Dashboard({ sensorData: initialSensorData }: DashboardPr
 
                 {/* Espacio para contenido adicional */}
                 <div className="md:col-span-1">
-                    <WeatherForecastCard data={forecast} />
+                    {loadingForecast ? (
+                        <div className="animate-pulse rounded border p-4 text-center text-gray-600 shadow">Cargando predicción...</div>
+                    ) : forecast ? (
+                        <WeatherForecastCard data={forecast} />
+                    ) : (
+                        <div className="rounded border p-4 text-red-600 shadow">Error al cargar la predicción</div>
+                    )}
                 </div>
             </div>
         </AppLayout>
