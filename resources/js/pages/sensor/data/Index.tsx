@@ -64,7 +64,7 @@ interface IndexProps {
 
 export default function Index({ sensordata, status }: IndexProps) {
 
-    console
+    // console
     //log de links
     const { current_page, last_page, total, per_page, prev_page_url, next_page_url, links } = sensordata;
 
