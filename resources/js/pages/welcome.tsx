@@ -51,9 +51,13 @@ export default function Welcome() {
             }
         };
 
+        fetchSensorData();
+    }, []);
+
+    useEffect(() => {
         const fetchForecast = async () => {
             try {
-                const response = await fetch('/api/prediccion'); // <-- Tu endpoint de modelo
+                const response = await fetch('/api/sensor/prediccion'); // <-- Tu endpoint de modelo
                 const data = await response.json();
                 setForecast(data);
             } catch (error) {
@@ -62,8 +66,6 @@ export default function Welcome() {
                 setLoadingForecast(false);
             }
         };
-
-        fetchSensorData();
         fetchForecast();
     }, []);
     return (
@@ -111,9 +113,13 @@ export default function Welcome() {
                         <SensorCharts data={sensorData} />
                     </div>
 
-                    <div className="md:col-span-1">
+                    {/* Espacio para contenido adicional */}
+
+                    {loadingForecast ? (
+                        <div className="animate-pulse ...">[...]</div>
+                    ) : (
                         <WeatherForecastCard data={forecast} loading={loadingForecast} />
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
