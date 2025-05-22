@@ -48,7 +48,7 @@ export default function Dashboard({ sensorData: initialSensorData }: DashboardPr
         // Simula la llamada a tu modelo (reemplaza con tu endpoint real)
         const fetchForecast = async () => {
             try {
-                const response = await fetch('/api/prediccion'); // <-- Tu endpoint de modelo
+                const response = await fetch('/api/sensor/prediccion'); // <-- Tu endpoint de modelo
                 const data = await response.json();
                 setForecast(data);
             } catch (error) {
