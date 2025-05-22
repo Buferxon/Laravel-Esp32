@@ -115,11 +115,7 @@ export default function Welcome() {
 
                     {/* Espacio para contenido adicional */}
 
-                    {loadingForecast ? (
-                        <div className="animate-pulse ...">[...]</div>
-                    ) : (
-                        <WeatherForecastCard data={forecast} loading={loadingForecast} />
-                    )}
+                    <WeatherForecastCard data={forecast} loading={loadingForecast} />
                 </div>
             </div>
         </div>
