@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/sensor/data', [SensorDataContrller::class, 'store'])->name('data.store');
 Route::get('/sensor/prediccion', [SensorDataContrller::class, 'obtenerDatosClima'])->name('data.prediccion');
+Route::get('/sensor', [SensorDataContrller::class, 'getLastSensorData'])->name('data.data');
 
 Route::get('/docs/openapi.yaml', function () {
     $filePath = base_path('docs/openapi.yaml');  // Usamos base_path() para acceder a la carpeta 'docs' fuera de 'public'

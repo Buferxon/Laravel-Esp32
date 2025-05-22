@@ -47,6 +47,26 @@ class SensorDataContrller extends Controller
         ]);
     }
 
+    public function getLastSensorData()
+    {
+        $sensordata = SensorData::with(['location', 'stateSky'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->through(function ($data) {
+                return [
+                    'id' => $data->id,
+                    'temperature' => $data->temperature,
+                    'humidity' => $data->humidity,
+                    'pressure' => $data->pressure,
+                    'sky_id' => $data->sky_id,
+                    'sky_description' => $data->stateSky?->description,
+                    'location_id' => $data->location_id,
+                    'location_name' => $data->location->name,
+                    'created_at' => $data->created_at->format('d-m-y H:i'),
+                ];
+            });
+        return response()->json($sensordata);
+    }
 
     public function obtenerDatosClima()
     {
@@ -75,13 +95,7 @@ class SensorDataContrller extends Controller
 
         return response()->json($datos);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -136,37 +150,5 @@ class SensorDataContrller extends Controller
 
         // Buscar el ID correspondiente en la tabla state_sky
         return StateSky::where('id', $weatherCode)->value('id');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SensorData $sensorData)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SensorData $sensorData)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SensorData $sensorData)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SensorData $sensorData)
-    {
-        //
     }
 }

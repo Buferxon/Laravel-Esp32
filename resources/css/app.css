@@ -6,6 +6,11 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
+@custom-variant sunset (&:is(.sunset *));
+@custom-variant ocean (&:is(.ocean *));
+@custom-variant mustard (&:is(.mustard *));
+@custom-variant light (&:is(.light *));
 
 @theme {
     --font-sans:
