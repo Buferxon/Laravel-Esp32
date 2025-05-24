@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
+use NunoMaduro\Collision\Adapters\Phpunit\State;
 use Symfony\Component\Process\Process;
 
 class SensorDataContrller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
 
     protected  $EstadoResponse;
     public function index(Request $request): Response
@@ -71,29 +70,31 @@ class SensorDataContrller extends Controller
     public function obtenerDatosClima()
     {
         $scriptPath = base_path('storage/app/public/prediccion.py');
+        $workingDir = dirname($scriptPath);
 
-        $process = new Process(['python3', $scriptPath]); // Aquí usamos python3 para Linux
-        $process->run();
+        $output = shell_exec("cd {$workingDir} && python3 prediccion.py 2>&1");
 
-        if (!$process->isSuccessful()) {
-            dd($process->getErrorOutput());
-        }
-        if (!$process->isSuccessful()) {
-            return response()->json(['error' => 'Error al ejecutar el script'], 500);
-        }
+        // Buscar el primer '{' y el último '}' para extraer solo el JSON
+        $start = strpos($output, '{');
+        $end = strrpos($output, '}');
+        if ($start !== false && $end !== false && $end > $start) {
+            $jsonString = substr($output, $start, $end - $start + 1);
+            $datos = json_decode($jsonString, true);
 
-        $output = explode("\n", trim($process->getOutput()));
+            if (json_last_error() === JSON_ERROR_NONE) {
 
-        $datos = [];
-
-        foreach ($output as $linea) {
-            if (strpos($linea, '=') !== false) {
-                [$clave, $valor] = explode('=', $linea, 2);
-                $datos[$clave] = $valor;
+                $estado_cielo = StateSky::where('name', $datos['tipo_cielo'])->first();
+                // Retornar solo las variables del script
+                return response()->json([
+                    'TEMPERATURA' => $datos['temperatura'] ?? null,
+                    'HUMEDAD' => $datos['humedad'] ?? null,
+                    'PRESION' => $datos['presion'] ?? null,
+                    'TIPO_CIELO' => $estado_cielo?->name_es ?? null,
+                ]);
             }
         }
 
-        return response()->json($datos);
+        return response()->json(['error' => 'No se pudo parsear la salida del script.'], 500);
     }
 
 

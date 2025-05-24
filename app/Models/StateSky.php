@@ -10,7 +10,7 @@ class StateSky extends Model
     use HasFactory;
 
     protected $table = 'state_sky';
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'name_es', 'description_es'];
 
     public function sensorData()
     {

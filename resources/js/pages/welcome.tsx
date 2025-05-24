@@ -44,7 +44,6 @@ export default function Welcome() {
             try {
                 const response = await fetch('/api/sensor');
                 const data = await response.json();
-                // console.log('Sensor Data:', data);
                 setSensorData(data.data); // Si usas paginación Laravel, asegúrate de acceder a `data.data`
             } catch (error) {
                 console.error('Error al obtener datos del sensor:', error);
